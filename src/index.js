@@ -175,9 +175,7 @@ function createComponent($$, {element, props={}, events=[], specialProps={}, chi
  * @param {...Object|string} children - Children elements of this element.
  * @returns {Object} Returns component as substance component object.
  */
-function dom(element, props={}, ...children) {
-
-  const $$ = this && this.$$ ? this.$$ : props.$$;
+const dom = ($$) => (element, props={}, ...children) => {
 
   props = props || {};
 
@@ -214,6 +212,6 @@ function dom(element, props={}, ...children) {
   const component = createComponent($$, {element, props, events: eventHandlers, specialProps, children});
 
   return component;
-}
+};
 
 export { dom };

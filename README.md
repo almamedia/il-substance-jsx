@@ -95,7 +95,7 @@ By default `transform-react-jsx` uses `React.createElement` as the pragma that i
 
 As a relatively little known feature, its possible to configure the plugin to use a different JSX pragma, than the default `React.createElement`.
 
-In order to transform JSX defined elements into Substance's element structure, the JSX pragma needs to point to a custom transformation function. In this case that function is `dom($$)` (no spaces allowed).
+In order to transform JSX defined elements into Substance's element structure, the JSX pragma needs to point to a custom transformation function. In this case that function is `dom.bind({$$})` (no spaces allowed).
 
 This can be done in two ways:
 
@@ -110,7 +110,7 @@ In `.babelrc`, add the following first level object to the configuration:
 {
   "plugins": [
     ["transform-react-jsx", {
-      "pragma": "dom($$)"
+      "pragma": "dom.bind({$$})"
     }]
   ]
 }
@@ -128,7 +128,7 @@ The following comment specifies that in this file, the pragma will use function 
 
 ```javascript
 // Top of file, before any JSX calls.
-/* @jsx dom($$) */
+/* @jsx dom.bind({$$}) */
 ```
 
 ### Import `dom` function.

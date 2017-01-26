@@ -6,8 +6,12 @@ JSX for [Substance](http://substance.io/) writer.
 
 This library allows usage of regular JSX syntax with Newspilot Writer's flavor of [Substance](https://substance.io) (a react fork).
 
+## What does using JSX with substance look like?
+
 ```javascript
 render($$) {
+
+// substance with JSX
 
   return (
     <div>
@@ -17,6 +21,8 @@ render($$) {
 }
 
 // vs
+
+// regular substance element creation
 
 render($$) {
 
@@ -58,7 +64,7 @@ render($$) {
 This module:
 
 ```sh
-npm install --save git+ssh://gitlab.com/almamedia/il-substance-jsx.git#0.0.1
+npm install --save git+ssh://github.com/almamedia/il-substance-jsx.git@0.1.0
 ```
 
 Other modules:
@@ -72,7 +78,7 @@ npm install --save-dev babel babel-plugin-transform-react-jsx
 This module:
 
 ```sh
-yarn add git+ssh://git@gitlab.com/almamedia/il-substance-jsx.git#0.0.1
+yarn add git+ssh://git@github.com/almamedia/il-substance-jsx.git@0.1.0
 ```
 
 Other modules:
@@ -83,13 +89,13 @@ yarn add babel babel-plugin-transform-react-jsx
 
 ### Setting JSX pragma
 
-In order to be able to set a different pragma for parsing jsx (and to be able to parse it in the first place), we are using babel plugin [`transform-react-jsx`](https://babeljs.io/docs/plugins/transform-react-jsx/).
+Babel plugin [`transform-react-jsx`](https://babeljs.io/docs/plugins/transform-react-jsx/) allows parsing JSX, and setting a different pragma for parsing JSX.
 
-By default `transform-react-jsx` uses `React.createElement` as the pragma that is used to transform jsx into regular javascript.
+By default `transform-react-jsx` uses `React.createElement` as the pragma that is used to transform JSX into regular javascript.
 
-As a relatively little known feature, its possible to configure the plugin to use a different jsx pragma, than the default `React.createElement`.
+As a relatively little known feature, its possible to configure the plugin to use a different JSX pragma, than the default `React.createElement`.
 
-In order to transform JSX defined elements into Substance's element structure, the jsx pragma needs to point to a custom transformation function. In this case that function is `dom.bind({$$})` (no spaces allowed).
+In order to transform JSX defined elements into Substance's element structure, the JSX pragma needs to point to a custom transformation function. In this case that function is `dom.bind({$$})` (no spaces allowed).
 
 This can be done in two ways:
 
@@ -116,7 +122,7 @@ More information can be found in the [plugin's](https://babeljs.io/docs/plugins/
 
 If you don't want to use `.babelrc`, or don't want to set the pragma globally, you can also set it in each file separately.
 
-This step needs to be done for each file.
+This step needs to be done for each file separately.
 
 The following comment specifies that in this file, the pragma will use function `dom` for parsing JSX (`dom` is defined in the next step).
 
@@ -127,7 +133,9 @@ The following comment specifies that in this file, the pragma will use function 
 
 ### Import `dom` function.
 
-As the last step, in order for the pragma to be able to call the mapping function `dom`, the file with JSX in it needs to import the function. This needs to be done in every file, just like you would import `react` in every file when you want to use jsx with react.
+As the last step, in order for the pragma to be able to call the mapping function `dom`, the file with JSX in it needs to import the function.
+
+This needs to be done in every file, just like you would import `react` in every file, when you want to use jsx with react.
 
 ```javascript
 // in the beginning of the file

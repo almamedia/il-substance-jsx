@@ -64,7 +64,7 @@ render($$) {
 This module:
 
 ```sh
-npm install --save git+ssh://github.com/almamedia/il-substance-jsx.git@0.1.0
+npm install --save-dev git+ssh://git@github.com/almamedia/il-substance-jsx.git
 ```
 
 Other modules:
@@ -78,7 +78,7 @@ npm install --save-dev babel babel-plugin-transform-react-jsx
 This module:
 
 ```sh
-yarn add git+ssh://git@github.com/almamedia/il-substance-jsx.git@0.1.0
+yarn add git+ssh://git@github.com/almamedia/il-substance-jsx.git
 ```
 
 Other modules:

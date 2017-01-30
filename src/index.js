@@ -92,6 +92,13 @@ function getSpecialProps(props, isComponent) {
     }
   }
 
+  if (props.hasOwnProperty('dangerouslySetInnerHTML')) {
+    specialProps.dangerouslySetInnerHTML = {
+      value: props.dangerouslySetInnerHTML.__html,
+      originalPropName: 'dangerouslySetInnerHTML',
+    }
+  }
+
   return specialProps
 }
 
@@ -143,6 +150,10 @@ function createComponent($$, {element, props={}, events=[], specialProps={}, chi
 
   if (specialProps.val) {
     component.val(specialProps.val.value);
+  }
+
+  if (specialProps.dangerouslySetInnerHTML) {
+    component.html(specialProps.dangerouslySetInnerHTML.value);
   }
 
   children.forEach((child) => {

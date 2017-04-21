@@ -22,11 +22,29 @@ const RENAMED_PROPS = [
  * @returns {Object} Returns object containing event's name, handler as a
  * callback function, and the original prop name of the event given to jsx.
  */
-function getEventHandlers(props) {
+function getEventHandlers(elementName, props) {
   const propNames = Object.keys(props);
 
+  console.log('getEventHandlers');
+
   const eventHandlerPropNames = propNames.filter((propName) => {
-    return propName.match(/^on[A-Z]/);
+    return propName.match(/^on[A-Z]/) && props[propName] instanceof Function;
+  });
+
+  const disqualifiedPropNames = propNames.filter((propName) => {
+    return propName.match(/^on[A-Z]/) && !(props[propName] instanceof Function);
+  });
+
+  console.log('getEventHandlers', elementName, props, eventHandlerPropNames, disqualifiedPropNames);
+
+  const disqualified = disqualifiedPropNames.map((propName) => {
+    if (!(props[propName] instanceof Function)) {
+      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`); // eslint-disable-line no-console
+    }
+
+    return {
+      originalPropName: propName,
+    };
   });
 
   const eventHandlers = eventHandlerPropNames.map((propName) => {
@@ -37,7 +55,10 @@ function getEventHandlers(props) {
     };
   });
 
-  return eventHandlers || [];
+  return {
+    eventHandlers: eventHandlers || [],
+    disqualified: disqualified || [],
+  };
 }
 
 /**
@@ -194,9 +215,19 @@ function dom(element, props={}, ...children) {
 
   const isComponent = typeof element !== "string";
 
-  const eventHandlers = isComponent ? [] : getEventHandlers(props);
+  const elementName = isComponent ? element.name : element;
+
+  const {
+    eventHandlers=[],
+    disqualified:disqualifiedEventHandlers=[],
+  } = isComponent ? {} : getEventHandlers(elementName, props);
 
   const eventHandlerPropNames = eventHandlers.map((eventHandler) => {
+    return eventHandler.originalPropName;
+  });
+
+  const disqualifiedEventHandlerPropNames = disqualifiedEventHandlers.map((eventHandler) => {
+    console.log(`removing disqualified event handler prop ${eventHandler.originalPropName}`);
     return eventHandler.originalPropName;
   });
 
@@ -211,7 +242,14 @@ function dom(element, props={}, ...children) {
     return prop.originalPropName;
   });
 
-  props = tidyProps(props, '$$', ...eventHandlerPropNames, ...renamedPropNames, ...specialPropNames);
+  props = tidyProps(
+    props,
+    '$$',
+    ...eventHandlerPropNames,
+    ...renamedPropNames,
+    ...specialPropNames,
+    ...disqualifiedEventHandlerPropNames
+  );
 
   const otherProps = renamedProps.reduce((newProps, prop) => {
     return {

@@ -199,9 +199,9 @@ function dom(element, props={}, ...children) {
 
   const isComponent = typeof element !== "string";
 
-  console.log('dom', isComponent, element, props);
+  const elementName = isComponent ? element.name : element;
 
-  const elementName = isComponent ? element : element;
+  console.log('dom', isComponent, elemnentName, element, props);
 
   const eventHandlers = isComponent ? [] : getEventHandlers(elementName, props);
 

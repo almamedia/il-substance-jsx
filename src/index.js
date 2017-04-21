@@ -32,7 +32,7 @@ function getEventHandlers(elementName, props) {
   const eventHandlers = eventHandlerPropNames.map((propName) => {
 
     if (!(props[propName] instanceof Function)) {
-      console.error(`Value given to ${elementName} as event handler prop "${propName}" is not a function.`);
+      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`);
     }
 
     return {
@@ -200,8 +200,6 @@ function dom(element, props={}, ...children) {
   const isComponent = typeof element !== "string";
 
   const elementName = isComponent ? element.name : element;
-
-  console.log('dom', isComponent, elementName, element, props);
 
   const eventHandlers = isComponent ? [] : getEventHandlers(elementName, props);
 

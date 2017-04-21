@@ -25,6 +25,8 @@ const RENAMED_PROPS = [
 function getEventHandlers(elementName, props) {
   const propNames = Object.keys(props);
 
+  console.log('getEventHandlers');
+
   const eventHandlerPropNames = propNames.filter((propName) => {
     return propName.match(/^on[A-Z]/) && props[propName] instanceof Function;
   });
@@ -217,9 +219,9 @@ function dom(element, props={}, ...children) {
   const elementName = isComponent ? element.name : element;
 
   const {
-    eventHandlers,
-    disqualified:disqualifiedEventHandlers,
-  } = isComponent ? [] : getEventHandlers(elementName, props);
+    eventHandlers=[],
+    disqualified:disqualifiedEventHandlers=[],
+  } = isComponent ? {} : getEventHandlers(elementName, props);
 
   const eventHandlerPropNames = eventHandlers.map((eventHandler) => {
     return eventHandler.originalPropName;

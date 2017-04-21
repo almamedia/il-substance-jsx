@@ -33,6 +33,8 @@ function getEventHandlers(elementName, props) {
     return propName.match(/^on[A-Z]/) && !(props[propName] instanceof Function);
   });
 
+  console.log('getEventHandlers', elementName, props, eventHandlerPropNames, disqualifiedPropNames);
+
   const disqualified = disqualifiedPropNames.map((propName) => {
     return {
       originalPropName: propName,
@@ -224,6 +226,7 @@ function dom(element, props={}, ...children) {
   });
 
   const disqualifiedEventHandlerPropNames = disqualifiedEventHandlers.map((eventHandler) => {
+    console.log(`removing disqualified event handler prop ${eventHandler.originalPropName}`);
     return eventHandler.originalPropName;
   });
 

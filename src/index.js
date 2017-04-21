@@ -29,8 +29,14 @@ function getEventHandlers(elementName, props) {
     return propName.match(/^on[A-Z]/) && props[propName] instanceof Function;
   });
 
-  const disqualified = propNames.filter((propName) => {
+  const disqualifiedPropNames = propNames.filter((propName) => {
     return propName.match(/^on[A-Z]/) && !(props[propName] instanceof Function);
+  });
+
+  const disqualified = disqualifiedPropNames.map((propName) => {
+    return {
+      originalPropName: propName,
+    };
   });
 
   const eventHandlers = eventHandlerPropNames.map((propName) => {
@@ -217,6 +223,10 @@ function dom(element, props={}, ...children) {
     return eventHandler.originalPropName;
   });
 
+  const disqualifiedEventHandlerPropNames = disqualifiedEventHandlers.map((eventHandler) => {
+    return eventHandler.originalPropName;
+  });
+
   const specialProps = getSpecialProps(props, isComponent);
   const specialPropNames = Object.values(specialProps).map((prop) => {
     return prop.originalPropName;
@@ -234,7 +244,7 @@ function dom(element, props={}, ...children) {
     ...eventHandlerPropNames,
     ...renamedPropNames,
     ...specialPropNames,
-    ...disqualifiedEventHandlers
+    ...disqualifiedEventHandlerPropNames
   );
 
   const otherProps = renamedProps.reduce((newProps, prop) => {

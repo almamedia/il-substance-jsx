@@ -201,7 +201,7 @@ function dom(element, props={}, ...children) {
 
   const elementName = isComponent ? element.name : element;
 
-  console.log('dom', isComponent, elemnentName, element, props);
+  console.log('dom', isComponent, elementName, element, props);
 
   const eventHandlers = isComponent ? [] : getEventHandlers(elementName, props);
 

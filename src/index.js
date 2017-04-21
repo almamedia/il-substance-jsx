@@ -22,7 +22,7 @@ const RENAMED_PROPS = [
  * @returns {Object} Returns object containing event's name, handler as a
  * callback function, and the original prop name of the event given to jsx.
  */
-function getEventHandlers(props) {
+function getEventHandlers(elementName, props) {
   const propNames = Object.keys(props);
 
   const eventHandlerPropNames = propNames.filter((propName) => {
@@ -30,6 +30,11 @@ function getEventHandlers(props) {
   });
 
   const eventHandlers = eventHandlerPropNames.map((propName) => {
+
+    if (!(props[propName] instanceof Function)) {
+      console.error(`Value given to ${elementName} as event handler prop "${propName}" is not a function.`);
+    }
+
     return {
       name: propName.substr(2).toLowerCase(),
       callback: props[propName],
@@ -194,7 +199,11 @@ function dom(element, props={}, ...children) {
 
   const isComponent = typeof element !== "string";
 
-  const eventHandlers = isComponent ? [] : getEventHandlers(props);
+  console.log('dom', isComponent, element, props);
+
+  const elementName = isComponent ? element : element;
+
+  const eventHandlers = isComponent ? [] : getEventHandlers(elementName, props);
 
   const eventHandlerPropNames = eventHandlers.map((eventHandler) => {
     return eventHandler.originalPropName;

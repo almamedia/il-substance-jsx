@@ -38,17 +38,16 @@ function getEventHandlers(elementName, props) {
   console.log('getEventHandlers', elementName, props, eventHandlerPropNames, disqualifiedPropNames);
 
   const disqualified = disqualifiedPropNames.map((propName) => {
+    if (!(props[propName] instanceof Function)) {
+      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`); // eslint-disable-line no-console
+    }
+
     return {
       originalPropName: propName,
     };
   });
 
   const eventHandlers = eventHandlerPropNames.map((propName) => {
-
-    if (!(props[propName] instanceof Function)) {
-      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`); // eslint-disable-line no-console
-    }
-
     return {
       name: propName.substr(2).toLowerCase(),
       callback: props[propName],

@@ -36,7 +36,7 @@ function getEventHandlers(elementName, props) {
   const eventHandlers = eventHandlerPropNames.map((propName) => {
 
     if (!(props[propName] instanceof Function)) {
-      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`);
+      console.error(`Value given to element "${elementName}" as event handler prop "${propName}" is not a function.`); // eslint-disable-line no-console
     }
 
     return {
@@ -234,7 +234,7 @@ function dom(element, props={}, ...children) {
     ...eventHandlerPropNames,
     ...renamedPropNames,
     ...specialPropNames,
-    ...disqualifiedEventHandlers,
+    ...disqualifiedEventHandlers
   );
 
   const otherProps = renamedProps.reduce((newProps, prop) => {
